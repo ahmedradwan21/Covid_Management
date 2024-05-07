@@ -1,0 +1,20 @@
+<!-- image_update.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Image</title>
+</head>
+<body>
+    <h1>Update Image</h1>
+    {% if form.errors %}
+        <p>Please correct the errors below.</p>
+    {% endif %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Update Image</button>
+    </form>
+    <a href="{% url 'image_display' %}">Display Images</a>
+</body>
+</html>

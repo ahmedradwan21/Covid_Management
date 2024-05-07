@@ -1,0 +1,19 @@
+<!-- image_display.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Display Images</title>
+</head>
+<body>
+    <h1>Display Images</h1>
+    {% if images %}
+        {% for image in images %}
+            <img src="{{ image.image.url }}" alt="Uploaded Image">
+            <a href="{% url 'image_update' image_id=image.id %}">Update Image</a>
+        {% endfor %}
+    {% else %}
+        <p>No images uploaded.</p>
+    {% endif %}
+</body>
+</html>

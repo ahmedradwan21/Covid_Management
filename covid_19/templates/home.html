@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <!-- Include any CSS files -->
+</head>
+<body class="home">
+    <header class="header">
+        <div class="container">
+            <nav class="header-navigation" aria-label="navigation">
+                <ul>
+                    {% if user.username %}
+                        <p>Welcome, {{ user.username }}!</p>
+                    {% else %}
+                        <li><a href="{% url 'register' %}">Sign Up</a></li>
+                        <li><a href="{% url 'login' %}">Sign In</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <section class="section-image">
+        <div class="slider-container">
+            <!-- Add your slider images here -->
+        </div>
+    </section>
+    <section class="section-title">
+        <div class="container">
+            <h2>Detection of COVID-19 and Cardiovascular Diseases By Deep Learning</h2>
+        </div>
+    </section>
+    <section class="section-button">
+        <div class="container">
+            <a href="{% url 'calculate_risk' %}" class="btn">Go to Risk Calculator</a>
+            <a href="{% url 'profile' %}" class="btn">View Profile</a>  <!-- Added profile link -->
+            <p>Click below to upload an image:</p>
+            <a href="{% url 'image_upload' %}">Upload Image</a>
+            
+        </div>
+    </section>
+    <!-- Include any JavaScript files -->
+</body>
+</html>

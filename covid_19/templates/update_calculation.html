@@ -1,0 +1,9 @@
+{% comment %} {% extends 'base.html' %} {% endcomment %}
+{% block content %}
+  <h1>Update Risk Calculation</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Update Calculation</button>
+  </form>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% comment %} {% extends 'base.html' %} {% endcomment %}
+{% block content %}
+    <style>
+        .user-profile {
+            background-color: #f4f4f4;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .user-profile h1 {
+            color: #333;
+        }
+
+        .risk-calculator {
+            background-color: #eaeaea;
+            padding: 20px;
+        }
+
+        .risk-calculator h2 {
+            color: #555;
+        }
+
+        .risk-calculator ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .risk-calculator ul li {
+            margin-bottom: 10px;
+        }
+
+        .risk-calculator ul li strong {
+            font-weight: bold;
+        }
+    </style>
+
+    <div class="user-profile">
+        <h1>User Profile</h1>
+        <p><strong>Username:</strong> {{ user_profile.user.username }}</p>
+        <p><strong>Email:</strong> {{ user_profile.user.email }}</p>
+        <!-- Display other profile fields as needed -->
+    </div>
+
+    <div class="risk-calculator">
+        <h2>Risk Calculator Data</h2>
+        {% if risk_data %}
+            <ul>
+                <li>Age: {{ risk_data.age }}</li>
+                <li>Cholesterol: {{ risk_data.cholesterol }}</li>
+                <li>Blood Pressure: {{ risk_data.blood_pressure }}</li>
+                <li>HDL Cholesterol: {{ risk_data.hdl_cholesterol }}</li>
+                <li>Physical Activity Hours: {{ risk_data.physical_activity_hours }}</li>
+                <li>Alcohol Consumption per Week: {{ risk_data.alcohol_consumption_per_week }}</li>
+                <li>Weight: {{ risk_data.weight }}</li>
+                <li>Height: {{ risk_data.height }}</li>
+                <li>Smoker: {% if risk_data.smoker %}Yes{% else %}No{% endif %}</li>
+                <li>Diabetes: {% if risk_data.diabetes %}Yes{% else %}No{% endif %}</li>
+                <li>Family History Heart Disease: {% if risk_data.family_history_heart_disease %}Yes{% else %}No{% endif %}</li>
+                <li>Created At: {{ risk_data.created_at }}</li>
+            </ul>
+        {% else %}
+            <p>No risk calculator data available.</p>
+        {% endif %}
+    </div>
+{% endblock %}

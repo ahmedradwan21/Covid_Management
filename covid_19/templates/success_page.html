@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Risk Calculator Result</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        .detail-label {
+            font-weight: bold;
+        }
+
+        .detail-value {
+            margin-left: 10px;
+        }
+
+        .checkbox-container {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Risk Calculator Result</h1>
+        <p><span class="detail-label">Age:</span> <span class="detail-value">{{ risk_data.age }}</span></p>
+        <p><span class="detail-label">Cholesterol:</span> <span class="detail-value">{{ risk_data.cholesterol }}</span></p>
+        <p><span class="detail-label">Blood Pressure:</span> <span class="detail-value">{{ risk_data.blood_pressure }}</span></p>
+        <p><span class="detail-label">HDL Cholesterol:</span> <span class="detail-value">{{ risk_data.hdl_cholesterol }}</span></p>
+        <p><span class="detail-label">Physical Activity (hours per week):</span> <span class="detail-value">{{ risk_data.physical_activity_hours }}</span></p>
+        <p><span class="detail-label">Alcohol Consumption (drinks per week):</span> <span class="detail-value">{{ risk_data.alcohol_consumption_per_week }}</span></p>
+        <p><span class="detail-label">Weight:</span> <span class="detail-value">{{ risk_data.weight }}</span></p>
+        <p><span class="detail-label">Height:</span> <span class="detail-value">{{ risk_data.height }}</span></p>
+
+        <div class="checkbox-container">
+            <label for="smokerCheckbox">Smoker:</label>
+            <input type="checkbox" id="smokerCheckbox" name="smoker" {% if risk_data.smoker %}checked{% endif %} disabled>
+        </div>
+
+        <div class="checkbox-container">
+            <label for="diabetesCheckbox">Diabetes:</label>
+            <input type="checkbox" id="diabetesCheckbox" name="diabetes" {% if risk_data.diabetes %}checked{% endif %} disabled>
+        </div>
+
+        <div class="checkbox-container">
+            <label for="familyHistoryCheckbox">Family history of heart disease:</label>
+            <input type="checkbox" id="familyHistoryCheckbox" name="family_history_heart_disease" {% if risk_data.family_history_heart_disease %}checked{% endif %} disabled>
+        </div>
+    </div>
+</body>
+</html>

@@ -144,19 +144,20 @@
 <body>
     {% endcomment %}
     
-    
+{% comment %}     
     <html lang="en">
         <head>
+            {% load static %}
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Sign Up</title>
-            {% comment %} <link rel="stylesheet" href="{% static 'css/signup' %}"  /> {% endcomment %}
+            <link rel="stylesheet" href="{% static 'css/signup.css' %}" />
             <!-- Add your stylesheets and scripts here -->
         </head>
         <body>
         
         {% comment %} {% load static %} {% endcomment %}
-        
+{% comment %}         
         {% block content %}
         <div class="container">
             <h1>Sign Up</h1>
@@ -205,4 +206,174 @@
         
         {% comment %} Add your scripts and styles here {% endcomment %}
         
-        {% endblock %}
+        {% comment %} {% endblock %} {% endcomment %}
+         {% comment %} {% endcomment %}
+
+         <!DOCTYPE html>
+         <html lang="en">
+         
+         <head>
+            {% load static %}
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Sign Up</title>
+            <link rel="stylesheet" href="{% static 'css/signup.css' %}">
+            <!-- Add other meta tags or links here -->
+
+        </head>
+         
+         <body>
+            <div class="login ">
+                 {% comment %} <img src="" alt="login image" class="login__img" /> {% endcomment %}
+                 <form class="login__form" method="POST" id="registrationForm">
+                    {% csrf_token %}
+                     <h1 class="login__title">Sign Up</h1>
+                     <p class="login__register">Please fill in the details to create an account with us</p>
+                     <div class="login__content">
+                         <div>
+                             <div class="login__box">
+                                 <i class="ri-user-fill login__icon"></i>
+         
+                                 <div class="login__box-input">
+                                     <label for="email" class="login__label">UserName</label>
+                                     <input class="login__input" type="text" name="username" placeholder=" " id="firstname" />
+                                     <br>
+                                     <span id="fname_error"></span>
+                                 </div>
+                             </div>
+                             <div class="login__box">
+                                 <i class="ri-user-fill login__icon"></i>
+         
+                                 <div class="login__box-input">
+                                     <label for="email" class="login__label">First Name</label>
+                                     <input class="login__input" type="text" name="first_name" placeholder=" " id="lastname" />
+                                     <br>
+                                     <span id="lname_error"></span>
+                                 </div>
+                             </div>
+                             <div class="login__box">
+                                 <i class="ri-user-fill login__icon"></i>
+         
+                                 <div class="login__box-input">
+                                     <label for="email" class="login__label">Last Name</label>
+                                     <input class="login__input" type="text" name="last_name" placeholder=" " id="lastname" />
+                                     <br>
+                                     <span id="lname_error"></span>
+                                 </div>
+                             </div>
+                             <div class="login__box">
+                                 <i class="ri-phone-fill login__icon"></i>
+         
+                                 <div class="login__box-input">
+                                     <label for="email" class="login__label">Phone Number</label>
+                                     <input class="login__input" type="text" name="phone" placeholder=" " id="phone" />
+                                     <br>
+                                     <span id="phone_error"></span>
+                                 </div>
+                             </div>
+                         </div>
+                         <div>
+                             <div class="login__box">
+                                 <i class="ri-mail-fill login__icon"></i>
+         
+                                 <div class="login__box-input">
+                                     <label for="email" class="login__label">Email</label>
+                                     <input class="login__input" type=" email" name="email" placeholder=" " id="email" />
+                                     <br>
+                                     <span id="email_error"></span>
+                                 </div>
+                             </div>
+                             <div class="login__box">
+                                 <i class="ri-lock-fill login__icon"></i>
+         
+                                 <div class="login__box-input">
+                                     <label for="email" class="login__label">Password</label>
+                                     <input class="login__input" type="password" name="password" placeholder=" " id="pwd" />
+                                     <br>
+                                     <span id="pwd_error"> </span>
+                                 </div>
+                             </div>
+                             <div class="login__box">
+                                 <i class="ri-lock-fill login__icon"></i>
+         
+                                 <div class="login__box-input">
+                                     <label for="email" class="login__label">Confirm Password</label>
+                                     <input class="login__input" type="password" name= "confirm_password" placeholder=" " id="confirm" />
+                                     <br>
+                                     <span id="confirm_error"></span>
+                                 </div>
+                             </div>
+                         </div>
+         
+                     </div>
+         
+                     <p class="login__register">
+                         By creating an account you agree to our
+                         <a href="#">Terms & Privacy</a>.
+                     </p>
+                     <button class="login__button" type="submit">
+                         Sign Up
+                     </button>
+                     <p>Already have an account? <a href="/login">Login</a></p>
+                 </form>
+             </div>
+         
+             {% comment %} <script src=" sign up.js"></script> {% endcomment %}
+             {% comment %} <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script> {% endcomment %}
+             {% comment %} <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script> {% endcomment %}
+             {% comment %} <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script> {% endcomment %}
+         
+             <script>
+                 // Your web app's Firebase configuration
+                 const firebaseConfig = {
+                   apiKey: "AIzaSyAnKVn7CB043lNJASl_91ytnFiDyBqWWKk",
+                   authDomain: "ecg-classification-heart.firebaseapp.com",
+                   projectId: "ecg-classification-heart",
+                   storageBucket: "ecg-classification-heart.appspot.com",
+                   messagingSenderId: "948234425747",
+                   appId: "1:948234425747:web:2b93eb1c707b45784b8466"
+                 };
+         
+                // Initialize Firestore
+                const firestore = firebase.firestore();
+         
+         document.getElementById('registrationForm').addEventListener('submit', function(event) {
+             var email = document.getElementById('email').value;
+             var password = document.getElementById('pwd').value;
+         
+             firebase.auth().createUserWithEmailAndPassword(email, password)
+                 .then(function(userCredential) {
+                     // Signed up successfully
+                     var user = userCredential.user;
+                     console.log('User signed up:', user);
+         
+                     // Store user data in Firestore
+                     firestore.collection("users").doc(user.uid).set({
+                         firstName: document.getElementById('firstname').value,
+                         lastName: document.getElementById('lastname').value,
+                         email: email,
+                         phoneNumber: document.getElementById('phone').value
+                     })
+                     .then(function() {
+                         console.log("User data stored successfully!");
+                         // You can redirect the user to a different page here if needed
+                     })
+                     .catch(function(error) {
+                         console.error("Error storing user data: ", error);
+                     });
+                 })
+                 .catch(function(error) {
+                     // Handle errors
+                     var errorCode = error.code;
+                     var errorMessage = error.message;
+                     console.error('Signup error:', errorMessage);
+                     // Display error message to the user if needed
+                 });
+         });
+         
+             </script>
+           <!-- Success message -->
+           <p id="registrationSuccessMessage" style="color: green; display: none;">Registration completed successfully!</p>
+         </body>
+         
+         </html>

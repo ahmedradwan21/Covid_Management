@@ -77,6 +77,27 @@ body {
 }
 .slide{
   width: 100%;
+  background-image: url('/static/images/electrocardiogram-6821777_1280.jpg');
+}
+.slide1{
+  width: 100%;
+  background-image: url('/static/images/corona-5090488_1280.jpg');
+
+}
+.slide2{
+  width: 100%;
+  background-image: url('/static/images/istockphoto-1352253374-1024x1024.jpg');
+
+}
+.slide3{
+  width: 100%;
+  background-image: url('/static/images/istockphoto-1490988364-612x612.jpg');
+
+}
+.slide4{
+  width: 100%;
+  background-image: url('/static/images/ecg-1953179_1280.jpg');
+
 }
 .section-title {
   text-align: center;

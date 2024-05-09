@@ -30,7 +30,7 @@ body {
   align-items: center;
   height: 100vh;
   background-color: #f4f4f4; */
-  background-image: url('/static/images/70bm.gif');
+  /* background-image: url('/static/images/70bm.gif'); */
 
 }
 
@@ -41,7 +41,7 @@ body {
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  background-image: url('/static/images/70bm.gif');
+  /* background-image: url('/static/images/electrocardiogram-6821777_1280.gif'); */
 }
 
 .login__title {

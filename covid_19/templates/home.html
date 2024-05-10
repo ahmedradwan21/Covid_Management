@@ -17,11 +17,13 @@
     <div class="container">
       <nav class="header-navigation" aria-label="navigation">
         <ul>
-          <li> <a href="{% url 'home' %}" class="btn"> home</a></li>
-          <li> <a href="{% url 'register' %}" class="btn"> register</a></li>
-          <li> <a href="{% url 'calculate_risk' %}" class="btn"> Risk Calculator</a></li>
-          <li> <a href="{% url 'profile' %}" class="btn">Profile</a> </li> 
-          {% comment %} <li><a href="{% url 'image_upload' %}">Upload Image</a></li> {% endcomment %}
+            <li><a href="{% url 'home' %}" class="btn">Home</a></li>
+            <li><a href="{% url 'register' %}" class="btn">Register</a></li>
+            <li><a href="{% url 'calculate_risk' %}" class="btn">Risk Calculator</a></li>
+            <li><a href="{% url 'profile' user_id=user_profile.user.id %}" class="btn">View Profile</a></li>
+            {% if user_profile.is_doctor %}  <!-- Check if user is a doctor -->
+            <li><a href="{% url 'all_users' %}" class="btn">View All Users</a></li>
+        {% endif %}
         </ul>
         <ul>
             {% if user.username %}
@@ -47,7 +49,7 @@
     <div class="container">
         <h2>Detection of COVID-19 and Cardiovascular Diseases By Deep Learning</h2>
         <a href="{% url 'calculate_risk' %}" class="btn">Go to Risk Calculator</a>
-        <a href="{% url 'profile' %}" class="btn">View Profile</a>  <!-- Added profile link -->
+        {% comment %} <a href="{% url 'profile' %}" class="btn">View Profile</a>  <!-- Added profile link --> {% endcomment %}
         <p>Click below to upload an image:</p>
         <a href="{% url 'image_upload' %}">Upload Image</a>
     </div>

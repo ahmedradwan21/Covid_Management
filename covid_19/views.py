@@ -18,19 +18,20 @@ def register_view(request):
         username = request.POST['username']
         password = request.POST['password']
         email = request.POST['email']
-        
+        is_doctor = request.POST.get('is_doctor') == 'on'  # Assuming you have a checkbox in your registration form
+
         if User.objects.filter(username=username).exists():
             messages.error(request, 'Username is already taken.')
             return redirect('/register')
-        
+
         if User.objects.filter(email=email).exists():
-            messages.error(request, 'email is already taken.')
+            messages.error(request, 'Email is already taken.')
             return redirect('/register')
 
         user = User.objects.create_user(username=username, password=password, email=email)
         user.save()
         auth_token = str(uuid.uuid4())
-        profile_obj = Profile.objects.create(user = user , auth_token = auth_token)
+        profile_obj = Profile.objects.create(user=user, auth_token=auth_token, is_doctor=is_doctor)
         profile_obj.save()
         send_email_validation(email, auth_token)
         messages.success(request, 'Account created successfully.')
@@ -57,14 +58,27 @@ def login_view(request):
             return redirect('login') 
 
     return render(request, 'login.html')
-@login_required
-def home(request):
-    return render(request, 'home.html')
 
-def profile(request):
-    user_profile = Profile.objects.get(user=request.user)
+def home(request):
+    user_profile = request.user.profile  
+    context = {
+        'user_profile': user_profile,
+    }
+    return render(request, 'home.html', context)
+
+def all_users_view(request):
+    if request.user.profile.is_doctor:
+        users = User.objects.exclude(profile__is_doctor=True)
+    else:
+        users = User.objects.filter(profile__is_doctor=False)
+    return render(request, 'doctor_page.html', {'users': users})
+
+def profile(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    user_profile = get_object_or_404(Profile, user=user)
     risk_data = user_profile.risk_calculator_data
     return render(request, 'profile.html', {'user_profile': user_profile, 'risk_data': risk_data})
+
 
 def calculate_risk(request):
     if not request.user.is_authenticated:
@@ -216,3 +230,13 @@ def success(request):
 
 def token_send(request):
     return render(request , 'token_send.html')
+
+
+
+# @login_required
+# def doctor_page(request):
+#     if not request.user.profile.is_doctor:
+#         return redirect('home')
+
+#     all_users = User.objects.all()
+#     return render(request, 'doctor_page.html', {'all_users': all_users})

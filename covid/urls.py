@@ -26,7 +26,10 @@ urlpatterns = [
     path('success' , views.success , name='success'),
     path('verify/<auth_token>' , views.verify , name="verify"),
     path('error' , views.error_page , name="error"),
-    path('profile/', views.profile, name='profile'),
+    path('profile1/', views.profile, name='profile1'),
+    # path('doctor/', views.doctor_page, name='doctor_page'),
+    path('all-users/', views.all_users_view, name='all_users'),
+    path('profile/<int:user_id>/', views.profile, name='profile')
     
 ]
 

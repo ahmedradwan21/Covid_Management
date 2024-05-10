@@ -37,6 +37,7 @@ class Profile(models.Model):
     is_verified = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     risk_calculator_data = models.ForeignKey(RiskCalculatorData, on_delete=models.SET_NULL, null=True, blank=True)
+    is_doctor = models.BooleanField(default=False)
 
     def __str__(self):
         return self.user.username

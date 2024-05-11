@@ -34,6 +34,7 @@
         .risk-calculator ul li strong {
             font-weight: bold;
         }
+        
     </style>
 
     <div class="user-profile">
@@ -41,6 +42,11 @@
         <p><strong>Username:</strong> {{ user_profile.user.username }}</p>
         <p><strong>Email:</strong> {{ user_profile.user.email }}</p>
         <!-- Display other profile fields as needed -->
+        {% if image_url %}
+        <img src="{{ image_url.image.url }}" alt="Profile Image">
+    {% else %}
+        <p>No profile image available.</p>
+    {% endif %}
     </div>
 
     <div class="risk-calculator">

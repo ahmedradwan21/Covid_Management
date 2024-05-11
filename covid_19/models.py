@@ -38,6 +38,7 @@ class Profile(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     risk_calculator_data = models.ForeignKey(RiskCalculatorData, on_delete=models.SET_NULL, null=True, blank=True)
     is_doctor = models.BooleanField(default=False)
+    profile_image = models.OneToOneField(Images, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return self.user.username

@@ -1,0 +1,93 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #333;
+}
+
+.header {
+    /* background-color: #282012; */
+    /* color: #fff; */
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: larger;
+}
+img {
+    width: 100%;
+    height: auto; /* Maintain aspect ratio */
+}
+h1,
+label {
+    color: #f5d0ba;
+}
+
+button,
+input,
+select,
+select option {
+    background-color: #f5d0ba;
+}
+
+.profile-form {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 30px;
+    background-color: #333;
+    border-radius: 10px;
+    box-shadow: 2px 5px 5px 10px #f5d0ba;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 10px;
+    /* border: 1px solid #ced4da; */
+    border-radius: 5px;
+    /* background-color: #261c0b; */
+}
+
+
+button {
+    padding: 12px 20px;
+    /* background-color: #261c0b;    color: #fff; */
+    /* border: none; */
+    border-radius: 5px;
+    cursor: pointer;
+    /* transition: background-color 0.3s ease; */
+}
+
+.doctorfeedback {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.doctorfeedback div {
+    width: 600px;
+    padding: 30px;
+    background-color: #333;
+    border-radius: 10px;
+    box-shadow: 2px 5px 5px 10px #f5d0ba;
+    margin: 50px;
+}
+
+.doctorfeedback div label {
+    font-size: 22px;
+}

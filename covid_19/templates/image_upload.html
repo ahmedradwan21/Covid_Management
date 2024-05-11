@@ -1,20 +1,27 @@
-<!-- image_upload.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <title>Upload Image</title>
+    <link rel="stylesheet" href="{% static 'css/style1.css' %}" />
 </head>
 <body>
-    <h1>Upload Image</h1>
-    {% if form.errors %}
-        <p>Please correct the errors below.</p>
-    {% endif %}
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Upload Image</button>
-    </form>
-    <a href="{% url 'image_display' %}">Display Images</a>
+    <section class="section-upload">
+        <div class="upload-container">
+            <form id="uploadForm" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="img-area" data-img>
+                    <i class='bx bxs-cloud-upload bx-fade-up'></i>
+                    <h3>Upload Image</h3>
+                    <p>Image size must be less than <span>2MB</span></p>
+                </div>
+                {{ form.image }}
+                <div class="select">
+                    <button type="submit" class="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+    </section>
 </body>
 </html>

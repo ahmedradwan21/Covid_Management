@@ -18,7 +18,7 @@ def register_view(request):
         username = request.POST['username']
         password = request.POST['password']
         email = request.POST['email']
-        is_doctor = request.POST.get('is_doctor') == 'on'  # Assuming you have a checkbox in your registration form
+        is_doctor = request.POST.get('is_doctor') == 'on' 
 
         if User.objects.filter(username=username).exists():
             messages.error(request, 'Username is already taken.')
@@ -60,11 +60,29 @@ def login_view(request):
     return render(request, 'login.html')
 
 def home(request):
-    user_profile = request.user.profile  
+    user_profile = request.user.profile
+    existing_image = Images.objects.filter(user=request.user).first()
+
+    if request.method == 'POST':
+        form = ImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            image = form.save(commit=False)
+            image.user = request.user
+            image.save()
+            return redirect('image_display')  
+    else:
+        form = ImageForm()
+        return render(request, 'home.html')
+
+    if existing_image:
+        return redirect('image_update', image_id=existing_image.pk)
+
     context = {
         'user_profile': user_profile,
+        'form': form,
     }
     return render(request, 'home.html', context)
+
 
 def all_users_view(request):
     if request.user.profile.is_doctor:
@@ -76,8 +94,15 @@ def all_users_view(request):
 def profile(request, user_id):
     user = get_object_or_404(User, pk=user_id)
     user_profile = get_object_or_404(Profile, user=user)
+    image_url = user_profile.profile_image
     risk_data = user_profile.risk_calculator_data
-    return render(request, 'profile.html', {'user_profile': user_profile, 'risk_data': risk_data})
+    context = {
+        'user_profile': user_profile,
+        'image_url': image_url,
+        'risk_data': risk_data,
+    }
+
+    return render(request, 'patientprofile.html', context)
 
 
 def calculate_risk(request):
@@ -134,16 +159,23 @@ def image_upload(request):
     existing_image = Images.objects.filter(user=request.user).first()
     if existing_image:
         return redirect('image_update', image_id=existing_image.pk)
+
     if request.method == 'POST':
         form = ImageForm(request.POST, request.FILES)
         if form.is_valid():
             image = form.save(commit=False)
             image.user = request.user
             image.save()
-            return redirect('image_display')
+            profile, created = Profile.objects.get_or_create(user=request.user)
+            if not profile.profile_image:
+                profile.profile_image = image
+                profile.save()
+            return redirect('profile', user_id=request.user.pk)
     else:
         form = ImageForm()
+
     return render(request, 'image_upload.html', {'form': form})
+
 
 
 
@@ -233,10 +265,3 @@ def token_send(request):
 
 
 
-# @login_required
-# def doctor_page(request):
-#     if not request.user.profile.is_doctor:
-#         return redirect('home')
-
-#     all_users = User.objects.all()
-#     return render(request, 'doctor_page.html', {'all_users': all_users})

@@ -28,4 +28,9 @@ class RiskCalculatorForm(forms.ModelForm):
 class ImageForm(forms.ModelForm):
     class Meta:
         model = Images
-        fields = ['image']
+        fields = ['image']  # Specify the fields you want in the form
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Optionally, you can add customizations to your form fields here
+        self.fields['image'].widget.attrs.update({'accept': 'image/*'}) 

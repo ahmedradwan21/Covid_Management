@@ -119,7 +119,7 @@
 
     <!-- CSS -->
     {% comment %} <link rel="stylesheet" href="sign in.css" /> {% endcomment %}
-    <link rel="stylesheet" href="{% static 'css/signin.css' %}" />
+    <link rel="stylesheet" href="{% static 'css.css' %}" />
     <title>Login Form</title>
 </head>
 
@@ -136,17 +136,17 @@
                     <i class="ri-mail-fill login__icon"></i>
 
                     <div class="login__box-input">
-                        <label for="username" class="login__label">username</label>
                         <input type="text" name="username" required class="login__input" placeholder=" " />
+                        <label for="username" class="login__label">username</label>
                     </div>
                 </div>
                 <div class="login__box">
                     <i class="ri-lock-fill login__icon"></i>
 
                     <div class="login__box-input">
-                        <label for="login-pass" class="login__label">Password</label>
                         <input type="password" name="password" required class="login__input" id="login-pass"
                         placeholder=" " />
+                        <label for="login-pass" class="login__label">Password</label>
                         <i class="ri-eye-off-line login__eye" id="login-eye"></i>
                     </div>
                 </div>

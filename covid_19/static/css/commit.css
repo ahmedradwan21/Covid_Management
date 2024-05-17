@@ -1,0 +1,65 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color:  #2f4f3f /* استبدل 'background-image.jpg' بمسار الصورة التي ترغب في استخدامها كخلفية */
+
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff  /* تعيين لون خلفية للعنصر .container بشكل منفصل */
+}
+
+h1 {
+  text-align: center;
+  color: #658f82;
+}
+
+.comments {
+  margin-bottom: 20px;
+}
+
+.comment {
+  border: 2px solid  #658f82;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.rating input[type="radio"]:checked ~ label:before {
+  color: yellow;
+}
+
+#nameInput,
+#emailInput,
+#commentInput {
+  width: 100%;
+  margin-bottom: 10px;
+  color: rgb(15, 15, 15)82;
+  padding: 5px;
+  border: 2px solid  #658f82;
+  border-radius: 5px;
+  background-color:  #658f82;
+}
+
+.rating {
+  margin-bottom: 10px;
+
+}
+
+button {
+  display: block;
+  margin-left: auto;
+  margin-right: 0;
+  padding: 10px 20px;
+  background-color:  #658f82;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #6f7b87;
+}

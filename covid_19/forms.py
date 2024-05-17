@@ -2,7 +2,7 @@ from django.contrib.auth import forms as auth_forms
 from django import forms
 from django.forms.fields import EmailField
 from django.forms.widgets import EmailInput, PasswordInput
-from .models import RiskCalculatorData, Images
+from .models import *
 
 class PasswordResetForm(auth_forms.PasswordResetForm):
     email  = forms.EmailField(widget=forms.EmailInput(attrs={'class':"form-control"}))
@@ -15,7 +15,6 @@ class PasswordResetConfirmForm(auth_forms.SetPasswordForm):
     
     
     
-
 class RiskCalculatorForm(forms.ModelForm):
     class Meta:
         model = RiskCalculatorData
@@ -28,9 +27,24 @@ class RiskCalculatorForm(forms.ModelForm):
 class ImageForm(forms.ModelForm):
     class Meta:
         model = Images
-        fields = ['image']  # Specify the fields you want in the form
+        fields = ['image']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Optionally, you can add customizations to your form fields here
-        self.fields['image'].widget.attrs.update({'accept': 'image/*'}) 
+        self.fields['image'].widget.attrs.update({'accept': 'image/*'})
+
+
+
+class CommitForm(forms.ModelForm):
+    class Meta:
+        model = Commit
+        fields = ['commit', 'rating']
+        widgets = {
+            'commit': forms.Textarea(attrs={'rows': 3, 'placeholder': 'Add your comment...'}),
+            'rating': forms.Select(choices=[(5, '★★★★★'), (4, '★★★★☆'), (3, '★★★☆☆'), (2, '★★☆☆☆'), (1, '★☆☆☆☆')]),
+        }
+
+class DoctorFeedbackForm(forms.ModelForm):
+    class Meta:
+        model = DoctorFeedback
+        fields = ['feedback']

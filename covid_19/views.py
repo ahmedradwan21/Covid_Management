@@ -1,18 +1,17 @@
-from django.conf import settings
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login
-from .models import *
-from django.contrib import messages
-from django.contrib.auth.models import User
-from .forms import PasswordResetConfirmForm, PasswordResetForm 
-from django.contrib.auth import views
-from .forms import RiskCalculatorForm, ImageForm
-from django.contrib.auth.decorators import login_required
-from django.views import View
+# from .forms import FeedbackForm
 import uuid
+from django.conf import settings
+from django.contrib import messages
+from django.contrib.auth import authenticate, login
+from django.contrib.auth import views
+from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
+from django.shortcuts import render, redirect, get_object_or_404
+from .forms import *
+from django.contrib.auth import logout
 
 
+@login_required
 def register_view(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -38,7 +37,7 @@ def register_view(request):
         return redirect('/token')
     return render(request, 'register.html')
 
-
+@login_required
 def login_view(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -59,6 +58,7 @@ def login_view(request):
 
     return render(request, 'login.html')
 
+@login_required
 def home(request):
     user_profile = request.user.profile
     existing_image = Images.objects.filter(user=request.user).first()
@@ -83,7 +83,7 @@ def home(request):
     }
     return render(request, 'home.html', context)
 
-
+@login_required
 def all_users_view(request):
     if request.user.profile.is_doctor:
         users = User.objects.exclude(profile__is_doctor=True)
@@ -91,20 +91,47 @@ def all_users_view(request):
         users = User.objects.filter(profile__is_doctor=False)
     return render(request, 'doctor_page.html', {'users': users})
 
+
+@login_required
 def profile(request, user_id):
     user = get_object_or_404(User, pk=user_id)
     user_profile = get_object_or_404(Profile, user=user)
     image_url = user_profile.profile_image
     risk_data = user_profile.risk_calculator_data
+    feedback_form = DoctorFeedbackForm()
+    feedbacks = DoctorFeedback.objects.filter(patient=user)
+
+    if request.method == 'POST':
+        feedback_form = DoctorFeedbackForm(request.POST)
+        if feedback_form.is_valid():
+            feedback = feedback_form.save(commit=False)
+            feedback.doctor = request.user
+            feedback.patient = user
+            feedback.save()
+            messages.success(request, 'Feedback submitted successfully.')
+            return redirect('profile', user_id=user_id)
+
     context = {
         'user_profile': user_profile,
         'image_url': image_url,
         'risk_data': risk_data,
+        'user_id': user_id,
+        'feedback_form': feedback_form,
+        'feedbacks': feedbacks,
     }
-
     return render(request, 'patientprofile.html', context)
 
+@login_required
+def save_patient_report(request, user_id):
+    if request.method == 'POST':
+        patient_profile = get_object_or_404(Profile, user__id=user_id)
+        patient_profile.patient_report = request.POST.get('patient_report')
+        patient_profile.save()
+        messages.success(request, 'Patient report saved successfully.')
+    return redirect('profile', user_id=user_id)
 
+
+@login_required
 def calculate_risk(request):
     if not request.user.is_authenticated:
         messages.error(request, 'You must be logged in to perform this action.')
@@ -137,6 +164,7 @@ def calculate_risk(request):
 
     return render(request, 'calculator.html', {'form': form})
 
+@login_required
 def update_calculation(request, pk):
     existing_calculation = RiskCalculatorData.objects.filter(pk=pk, user=request.user).first()
     if not existing_calculation:
@@ -155,6 +183,8 @@ def update_calculation(request, pk):
 
 
 
+
+@login_required
 def image_upload(request):
     existing_image = Images.objects.filter(user=request.user).first()
     if existing_image:
@@ -178,13 +208,13 @@ def image_upload(request):
 
 
 
-
+@login_required
 def image_display(request):
     images = Images.objects.filter(user=request.user)
     return render(request, 'image_display.html', {'images': images})
 
 
-
+@login_required
 def image_update(request, image_id):
     image = Images.objects.filter(user=request.user, pk=image_id).first()
     if not image:
@@ -199,10 +229,10 @@ def image_update(request, image_id):
     return render(request, 'image_update.html', {'form': form})
 
 
+@login_required
 def success_page(request, pk):
     risk_data = RiskCalculatorData.objects.filter(pk=pk, user=request.user).first()
     return render(request, 'success_page.html', {'risk_data': risk_data})
-
 
 class PasswordResetView(views.PasswordResetView):
     template_name = 'account/auth/password_reset.html'
@@ -214,16 +244,13 @@ class PasswordResetConfirmView(views.PasswordResetConfirmView):
     template_name = 'account/auth/password_reset_confirm.html'
     form_class = PasswordResetConfirmForm
 
-
 class PasswordResetDoneView(views.PasswordResetDoneView):
     template_name = 'account/auth/password_reset_done.html'
-
 
 class PasswordResetCompleteView(views.PasswordResetCompleteView):
     template_name = 'account/auth/password_reset_complete.html'
     
-    
-
+@login_required
 def verify(request, auth_token):
     try:
         profile_obj = Profile.objects.filter(auth_token=auth_token).first()
@@ -244,7 +271,7 @@ def verify(request, auth_token):
     
     
     
-
+@login_required
 def send_email_validation(email, token):
     subject = 'verified Your Account'
     message = f'Hi, paste the link to verify your account 🧾: http://127.0.0.1:8000/verify/{token}'
@@ -252,16 +279,62 @@ def send_email_validation(email, token):
     recipient_list = [email]
     send_mail(subject, message, email_from, recipient_list)
 
-
-
+@login_required
 def error_page(request):
-    return  render(request , 'error.html')
-
+    return render(request, 'error.html')
+@login_required
 def success(request):
-    return render(request , 'success.html')
-
+    return render(request, 'success.html')
+@login_required
 def token_send(request):
-    return render(request , 'token_send.html')
+    return render(request, 'token_send.html')
 
 
 
+
+# def submit_feedback(request, user_id):
+#     if request.method == 'POST':
+#         # Process the feedback form data here
+#         return redirect('user_profile', user_id=user_id)  # Redirect to user profile or any other page
+#     else:
+#         # Handle GET request or invalid method
+#         return redirect('home')
+
+
+@login_required
+def add_commit(request):
+    if request.method == 'POST':
+        form = CommitForm(request.POST)
+        if form.is_valid():
+            commit = form.save(commit=False)
+            commit.user = request.user
+            commit.save()
+            messages.success(request, 'Commit submitted successfully.')
+            return redirect('view_commits')
+    else:
+        form = CommitForm()
+
+    return render(request, 'submit_commit.html', {'form': form})
+
+def view_commits(request):
+    if request.method == 'POST':
+        form = CommitForm(request.POST)
+        if form.is_valid():
+            commit = form.save(commit=False)
+            commit.user = request.user
+            commit.save()
+            messages.success(request, 'Commit submitted successfully.')
+            return redirect('view_commits')
+    else:
+        form = CommitForm()
+
+    commits = Commit.objects.all().order_by('-id')  # Display latest commits first
+    context = {
+        'form': form,
+        'commits': commits,
+    }
+    return render(request, 'view_commit.html', context)
+
+# def logout_view(request):
+#     logout(request)
+#     return redirect('home')

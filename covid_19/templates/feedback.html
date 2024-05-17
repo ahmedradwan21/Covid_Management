@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Comments</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Patient Comments</h1>
+        <div class="comments">
+            <div class="comment">
+                <p><strong>Comment 1:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <p><strong>By:</strong> John Doe (<a href="mailto:john@example.com">john@example.com</a>)</p>
+                <p><strong>Rating:</strong> ★★★★☆</p>
+            </div>
+            <div class="comment">
+                <p><strong>Comment 2:</strong> Nulla quis lorem ut libero malesuada feugiat.</p>
+                <p><strong>By:</strong> Jane Doe (<a href="mailto:jane@example.com">jane@example.com</a>)</p>
+                <p><strong>Rating:</strong> ★★★☆☆</p>
+            </div>
+            <!-- Add more comments here -->
+        </div>
+        <form id="commentForm">
+            <input type="text" id="nameInput" placeholder="Your Name">
+            <input type="email" id="emailInput" placeholder="Your Email">
+            <textarea id="commentInput" placeholder="Add your comment..."></textarea>
+            <div class="rating">
+                <label for="rating">Rating:</label>
+                <select id="rating">
+                    <option value="5">★★★★★</option>
+                    <option value="4">★★★★☆</option>
+                    <option value="3">★★★☆☆</option>
+                    <option value="2">★★☆☆☆</option>
+                    <option value="1">★☆☆☆☆</option>
+                </select>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

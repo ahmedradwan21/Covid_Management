@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+</head>
+
+<body>
+    <h1>User Profile</h1>
+    <h2>Feedback Received:</h2>
+    <ul>
+        {% for feedback in feedback_received %}
+            <li>{{ feedback.doctor.username }}: {{ feedback.message }}</li>
+            {% if feedback.response %}
+                <ul>
+                    <li>{{ feedback.patient.username }}'s Response: {{ feedback.response }}</li>
+                </ul>
+            {% endif %}
+        {% empty %}
+            <li>No feedback received yet.</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Form for doctor to give feedback -->
+    {% if request.user.profile.is_doctor %}
+        <h2>Give Feedback</h2>
+        <form action="{% url 'feedback' user_id=user_id %}" method="POST">
+
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Submit Feedback</button>
+        </form>
+    {% endif %}
+</body>
+
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+                {% load static %}
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Comments</title>
+    <link rel="stylesheet" href="{% static 'css/commit.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Patient Comments</h1>
+        <div class="comments">
+            {% for commit in commits %}
+            <div class="comment">
+                <p><strong>Comment:</strong> {{ commit.commit }}</p>
+                <p><strong>By:</strong> {{ commit.user.username }} (<a href="mailto:{{ commit.user.email }}">{{ commit.user.email }}</a>)</p>
+                <p><strong>Rating:</strong>
+                    {% for i in "12345" %}
+                        {% if forloop.counter <= commit.rating %}
+                            &#9733;  <!-- filled star -->
+                        {% else %}
+                            &#9734;  <!-- empty star -->
+                        {% endif %}
+                    {% endfor %}
+                </p>
+            </div>
+            {% endfor %}
+        </div>
+        <form id="commentForm" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

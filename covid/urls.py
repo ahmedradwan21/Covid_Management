@@ -27,10 +27,14 @@ urlpatterns = [
     path('verify/<auth_token>' , views.verify , name="verify"),
     path('error' , views.error_page , name="error"),
     path('profile1/', views.profile, name='profile1'),
-    # path('doctor/', views.doctor_page, name='doctor_page'),
     path('all-users/', views.all_users_view, name='all_users'),
-    path('profile/<int:user_id>/', views.profile, name='profile')
-    
+    path('profile/<int:user_id>/', views.profile, name='profile'),
+    path('profile/<int:user_id>/', views.profile, name='user_profile'),
+    path('profile/<int:user_id>/save_report/', views.save_patient_report, name='save_patient_report'),
+    path('add_commit/', views.add_commit, name='add_commit'),
+    path('view_commits/', views.view_commits, name='view_commits'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    # path('logout/', views.logout_view, name='logout')
 ]
 
 if settings.DEBUG:

@@ -17,7 +17,7 @@ def register_view(request):
         username = request.POST['username']
         password = request.POST['password']
         email = request.POST['email']
-        is_doctor = request.POST.get('is_doctor') == 'on' 
+        is_doctor = request.POST.get('is_doctor') == 'on'
 
         if User.objects.filter(username=username).exists():
             messages.error(request, 'Username is already taken.')
@@ -60,7 +60,7 @@ def login_view(request):
 
 @login_required
 def home(request):
-    user_profile = request.user.profile
+    user_profile, created = Profile.objects.get_or_create(user=request.user)
     existing_image = Images.objects.filter(user=request.user).first()
 
     if request.method == 'POST':
@@ -69,10 +69,9 @@ def home(request):
             image = form.save(commit=False)
             image.user = request.user
             image.save()
-            return redirect('image_display')  
+            return redirect('image_display')
     else:
         form = ImageForm()
-        return render(request, 'home.html')
 
     if existing_image:
         return redirect('image_update', image_id=existing_image.pk)
@@ -249,8 +248,8 @@ class PasswordResetDoneView(views.PasswordResetDoneView):
 
 class PasswordResetCompleteView(views.PasswordResetCompleteView):
     template_name = 'account/auth/password_reset_complete.html'
-    
-@login_required
+
+
 def verify(request, auth_token):
     try:
         profile_obj = Profile.objects.filter(auth_token=auth_token).first()
@@ -267,13 +266,11 @@ def verify(request, auth_token):
         print(e)
         messages.error(request, 'An error occurred during verification.')
 
-    return redirect('login') 
-    
-    
-    
-@login_required
+    return redirect('login')
+
+
 def send_email_validation(email, token):
-    subject = 'verified Your Account'
+    subject = 'Verify Your Account'
     message = f'Hi, paste the link to verify your account 🧾: http://127.0.0.1:8000/verify/{token}'
     email_from = settings.EMAIL_HOST_USER
     recipient_list = [email]

@@ -18,12 +18,14 @@
                 <nav class="header-navigation" aria-label="navigation">
                     <ul>
                         <li><a href="{% url 'register' %}" class="btn">Register</a></li>
-<!--                        <li><a href="{% url 'view_commits' %}" class="btn">Add Commit</a></li>-->
+                                            {% if images %}
+                        <li><a href="{% url 'image_update' images.first.pk %}" class="btn">Update Image</a></li>
+                    {% else %}
+                        <li><a href="{% url 'image_upload' %}" class="btn">Upload Image</a></li>
+                    {% endif %}
                         {% if not request.user.profile.is_doctor %}
                         <li><a href="{% url 'view_commits' %}" class="btn">Add Commit</a></li>
                         <li><a href="{% url 'calculate_risk' %}" class="btn">Risk Calculator</a></li>
-                        {% comment %} <li><a href="{% url 'user_profile' user_id=request.user.id %}" class="btn">User Profile</a></li> {% endcomment %}
-                        {% comment %} <li><a href="{% url 'feedback' user_id=request.user.id %}" class="btn">Feedback</a></li> {% endcomment %}
                         {% if user.is_authenticated %}
                         <li><a href="{% url 'profile' user_id=user.id %}" class="btn">Profile</a></li>
                         {% endif %}
@@ -68,49 +70,47 @@
     </div>
   </section>
                                 {% if not request.user.profile.is_doctor %}
-  <section class="section-upload">
-    <div class="upload-container">
-        {% if existing_image %}
-            <form id="updateForm" action="{% url 'image_update' image_id=existing_image.pk %}" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <input type="file" name="image" id="file" accept="image/*" hidden>
-                <div class="img-area" data-img>
-                    <i class='bx bxs-cloud-upload bx-fade-up'></i>
-                    <h3>Upload Image</h3>
-                    <p>Image size must be less than <span>2MB</span></p>
-                </div>
-                <div class="select">
-                    <button id="updateButton" type="submit" class="submit">Update Image</button>
-                </div>
-            </form>
-            <div class="select" style="display: none;">
-                <button id="selectImage" type="button" class="select-image">
-                    <i class="ri-image-line"></i>
-                    Click here to upload image
-                </button>
-            </div>
-        {% else %}
-            <form id="uploadForm" action="{% url 'image_upload' %}" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <input type="file" name="image" id="file" accept="image/*" hidden>
-                <div class="img-area" data-img>
-                    <i class='bx bxs-cloud-upload bx-fade-up'></i>
-                    <h3>Upload Image</h3>
-                    <p>Image size must be less than <span>2MB</span></p>
-                </div>
-                <div class="select">
-                    <button id="selectImage" type="button" class="select-image">
-                        <i class="ri-image-line"></i>
-                        Click here to upload image
-                    </button>
-                </div>
-                <div class="select">
-                    <button id="sendButton" type="submit" class="submit">Submit</button>
-                </div>
-            </form>
-        {% endif %}
-    </div>
-</section>
+    <section class="section-upload">
+        <div class="upload-container">
+            {% if images %}
+                {% for image in images %}
+                    <form id="updateForm" action="{% url 'image_update' image.pk %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="file" name="image" id="file" accept="image/*" hidden>
+                        <div class="img-area" data-img>
+                            <i class='bx bxs-cloud-upload bx-fade-up'></i>
+                            <h3>Update Image</h3>
+                            <p>Image size must be less than <span>2MB</span></p>
+                        </div>
+                        <div class="select">
+<!--                            <button id="updateButton" type="submit" class="submit">Update Image</button>-->
+                       <button id="updateButton" type="submit" class="submit"> <a href="{% url 'image_update' images.first.pk %}" class="btn">Update Image</a></button>
+
+                        </div>
+                    </form>
+                {% endfor %}
+            {% else %}
+                <form id="uploadForm" action="{% url 'image_upload' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="file" name="image" id="file" accept="image/*" hidden>
+                    <div class="img-area" data-img>
+                        <i class='bx bxs-cloud-upload bx-fade-up'></i>
+                        <h3>Upload Image</h3>
+                        <p>Image size must be less than <span>2MB</span></p>
+                    </div>
+                    <div class="select">
+                        <button id="selectImage" type="button" class="select-image">
+                            <i class="ri-image-line"></i>
+                            Click here to upload image
+                        </button>
+                    </div>
+                    <div class="select">
+                        <button id="sendButton" type="submit" class="submit">Submit</button>
+                    </div>
+                </form>
+            {% endif %}
+        </div>
+    </section>
         {% endif %}
 
 </section>

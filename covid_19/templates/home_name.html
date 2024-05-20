@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Modern Home Page</title>
+  {% comment %} <link href="home.css" rel="stylesheet"> {% endcomment %}
+  <link rel="stylesheet" href="{% static 'css/home_name.css' %}" />
+</head>
+
+<body class="home">
+  <header class="header">
+    <div class="container">
+      <nav class="header-navigation" aria-label="navigation">
+        <ul>
+          <li><a href="{% url 'register' %}" class="btn">Register</a></li>
+          <li><a href="{% url 'login' %}" class="btn">login</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <section class="section-image">
+    <div class="slider-container">
+      <div class="slide"><img></div>
+      <div class="slide1"><img ></div>
+      <div class="slide2"><img ></div>
+      <div class="slide3"><img ></div>
+      <div class="slide4"><img ></div>
+      <div class="slide5"><img ></div>
+      
+    </div>
+  </section>
+  <section class="section-title">
+    <div class="container">
+      <h2>Detection of COVID-19 and Cardiovascular Diseases By Deep Learning</h2>
+    </div>
+  </section>
+  {% comment %} <script src="home.js"></script> {% endcomment %} 
+  <script src="{% static 'css/js/home.js' %}"></script>
+</body>
+
+</html>

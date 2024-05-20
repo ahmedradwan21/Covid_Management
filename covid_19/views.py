@@ -11,7 +11,6 @@ from .forms import *
 from django.contrib.auth import logout
 
 
-@login_required
 def register_view(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -37,7 +36,9 @@ def register_view(request):
         return redirect('/token')
     return render(request, 'register.html')
 
-@login_required
+
+
+
 def login_view(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -58,6 +59,11 @@ def login_view(request):
 
     return render(request, 'login.html')
 
+
+def home_name(request):
+    return render(request, 'home_name.html')
+
+
 @login_required
 def home(request):
     user_profile, created = Profile.objects.get_or_create(user=request.user)
@@ -72,15 +78,16 @@ def home(request):
             return redirect('image_display')
     else:
         form = ImageForm()
-
     if existing_image:
         return redirect('image_update', image_id=existing_image.pk)
-
+    
     context = {
         'user_profile': user_profile,
         'form': form,
     }
     return render(request, 'home.html', context)
+
+
 
 @login_required
 def all_users_view(request):
@@ -89,6 +96,8 @@ def all_users_view(request):
     else:
         users = User.objects.filter(profile__is_doctor=False)
     return render(request, 'doctor_page.html', {'users': users})
+
+
 
 
 @login_required
@@ -120,6 +129,8 @@ def profile(request, user_id):
     }
     return render(request, 'patientprofile.html', context)
 
+
+
 @login_required
 def save_patient_report(request, user_id):
     if request.method == 'POST':
@@ -128,6 +139,7 @@ def save_patient_report(request, user_id):
         patient_profile.save()
         messages.success(request, 'Patient report saved successfully.')
     return redirect('profile', user_id=user_id)
+
 
 
 @login_required
@@ -162,6 +174,8 @@ def calculate_risk(request):
         form = RiskCalculatorForm()
 
     return render(request, 'calculator.html', {'form': form})
+
+
 
 @login_required
 def update_calculation(request, pk):
@@ -210,7 +224,9 @@ def image_upload(request):
 @login_required
 def image_display(request):
     images = Images.objects.filter(user=request.user)
-    return render(request, 'image_display.html', {'images': images})
+    return render(request, 'home.html', {'images': images})
+
+
 
 
 @login_required
@@ -226,6 +242,7 @@ def image_update(request, image_id):
     else:
         form = ImageForm(instance=image)
     return render(request, 'image_update.html', {'form': form})
+
 
 
 @login_required
@@ -250,6 +267,7 @@ class PasswordResetCompleteView(views.PasswordResetCompleteView):
     template_name = 'account/auth/password_reset_complete.html'
 
 
+
 def verify(request, auth_token):
     try:
         profile_obj = Profile.objects.filter(auth_token=auth_token).first()
@@ -269,6 +287,7 @@ def verify(request, auth_token):
     return redirect('login')
 
 
+
 def send_email_validation(email, token):
     subject = 'Verify Your Account'
     message = f'Hi, paste the link to verify your account 🧾: http://127.0.0.1:8000/verify/{token}'
@@ -276,12 +295,15 @@ def send_email_validation(email, token):
     recipient_list = [email]
     send_mail(subject, message, email_from, recipient_list)
 
+
 @login_required
 def error_page(request):
     return render(request, 'error.html')
+
 @login_required
 def success(request):
     return render(request, 'success.html')
+
 @login_required
 def token_send(request):
     return render(request, 'token_send.html')
@@ -313,6 +335,7 @@ def add_commit(request):
 
     return render(request, 'submit_commit.html', {'form': form})
 
+
 def view_commits(request):
     if request.method == 'POST':
         form = CommitForm(request.POST)
@@ -331,6 +354,7 @@ def view_commits(request):
         'commits': commits,
     }
     return render(request, 'view_commit.html', context)
+
 
 # def logout_view(request):
 #     logout(request)

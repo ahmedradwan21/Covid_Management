@@ -5,13 +5,6 @@ from django.db import models
 from datetime import datetime
 
 
-#  feedback for user and doctor can write feedback   (done)
-#  imporve design for feedback                       (done)
-#  imporve design for register in one block          (done)
-#  imporve design for connect with js                (done)
-#  commit like feedback with write model and  views  ()
-#  page feedback for user can write commit and with page user can see all users commits    ()
-
 
 class RiskCalculatorData(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
